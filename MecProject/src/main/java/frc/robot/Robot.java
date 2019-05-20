@@ -10,15 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.Talon.*;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.drive.*;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.RobotDrive;
-
 
 /**
  * This is a demo program showing the use of the RobotDrive class. The
@@ -39,20 +37,21 @@ import edu.wpi.first.wpilibj.RobotDrive;
  */
 public class Robot extends SampleRobot {
   RobotDrive myDrive;
-  Joystick mecanumStick = new Joystick(0);
-  final int _kFLC = 1;
-  final int _kRLC = 0;
-  final int _kFRC = 3;
-  final int _kRRC = 2;
+  Joystick mechanumStick = new Joystick(0);
+  //kFLC is the front left channel port
+  final int _kFLC = 3;
+  final int _kRLC = 1;
+  final int _kFRC = 2;
+  final int _kRRC = 0;
   public Robot() {
     myDrive = new RobotDrive(_kFLC, _kRLC, _kFRC, _kRRC);
-    myDrive.setInvertedMotor(MotorType.kFrontLeft, true);
-    myDrive.setInvertedMotor(MotorType.kRearLeft, true);
+    myDrive.setInvertedMotor(MotorType.kFrontRight, true);
+    myDrive.setInvertedMotor(MotorType.kRearRight, true);
   }
 
   @Override
   public void robotInit() {
-
+    
   }
 
   /**
@@ -93,7 +92,7 @@ public class Robot extends SampleRobot {
    */
   @Override
   public void autonomous() {
-
+    
   }
 
   /**
@@ -112,8 +111,8 @@ public class Robot extends SampleRobot {
   @Override
   public void operatorControl() {
     myDrive.setSafetyEnabled(true);
-    while (isOperatorControl() && isEnabled()) {
-      myDrive.mecanumDrive_Cartesian(mecanumStick.getX(), mecanumStick.getY(), mecanumStick.getZ(), 0);
+    while(isOperatorControl() && isEnabled()) {
+      myDrive.mecanumDrive_Cartesian(mechanumStick.getX(), mechanumStick.getY(), mechanumStick.getZ(), 0);
       Timer.delay(0.005);
       Scheduler.getInstance().run();
     }
